@@ -121,13 +121,13 @@ and you can see the echo service implementation including codes and config files
         plan: free
         local_db: sqlite3:/var/vcap/services/echo/echo_node.db  
         mbus: nats://nats:nats@<nats_host>:<nats_port>/
-        index: 0  
+        index: 0
         base_dir: /var/vcap/services/echo/  
         ip_route: <services_host_ip>  
         logging:  
           level: debug  
         pid: /var/vcap/sys/run/echo_node.pid  
-        node_id: echo_node_0  
+        node_id: echo_node_0
         port: <echo_service_port> # port where echo service listens  
         host: <echo_service_host> # host where echo service resides. May be different from services host
 
@@ -150,13 +150,12 @@ and you can see echo was registered as valid component
 
 6. Bundle the necessary dependencies for the node and gateway for the new service:
 
-    Take echo service as example: 
+    Take echo service as example:
 
         $ cd .../cloudfoundry/vcap/services/echo
         $ source $HOME/.cloudfoundry_deployment_profile && bundle package
 
-7. To modify the default exclusion components list, add/remove the component name in `.../cloudfoundry/vcap/dev_setup/lib/vcap_components.rb` to/from: 
-DEFAULT_CLOUD_FOUNDRY_EXCLUDED_COMPONENT then you do not have to use environment variable
+7. To modify the default exclusion components list, update the component names in `.../cloudfoundry/vcap/dev_setup/lib/vcap_components.rb` then you do not have to use environment variable
 
         DEFAULT_CLOUD_FOUNDRY_EXCLUDED_COMPONENT = 'neo4j|memcached|couchdb|service_broker|elasticsearch|backup_manager|vcap_redis|worker|snapshot_manager|serialization_data_server|echo'
 
