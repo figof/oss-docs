@@ -35,7 +35,7 @@ typing `vmc services`:
 
 ## We have included a boilerplate sample service "echo" that you can copy and update for your own use case.
 
-After making echo service out of "excluded components" then re-run `.../cloudfoundry/vcap/dev_setup/bin/vcap_dev start`
+After making echo service out of "excluded components"(see `https://github.com/cloudfoundry/vcap/blob/master/dev_setup/README`) then re-run `.../cloudfoundry/vcap/dev_setup/bin/vcap_dev start`
 our echo service will appear as a system service
 in the table printed by `vmc services`. This guide can be used for both
 single-machine and distributed setup of Cloud Foundry. **Note that by ellipsis
@@ -155,7 +155,12 @@ and you can see echo was registered as valid component
         $ cd .../cloudfoundry/vcap/services/echo
         $ source $HOME/.cloudfoundry_deployment_profile && bundle package
 
-7. Restart cloud controller and services node:
+7. To modify the default exclusion components list, add/remove the component name in `.../cloudfoundry/vcap/dev_setup/lib/vcap_components.rb` to/from: 
+DEFAULT_CLOUD_FOUNDRY_EXCLUDED_COMPONENT then you do not have to use environment variable
+
+        DEFAULT_CLOUD_FOUNDRY_EXCLUDED_COMPONENT = 'neo4j|memcached|couchdb|service_broker|elasticsearch|backup_manager|vcap_redis|worker|snapshot_manager|serialization_data_server|echo'
+
+8. Restart cloud controller, service gateway and node:
 
         $ .../cloudfoundry/vcap/dev_setup/bin/vcap_dev restart
    
