@@ -35,6 +35,9 @@ typing `vmc services`:
 
 ## We have included a boilerplate sample service "echo" that you can copy and update for your own use case.
 
+After you finish dev_setup, the services directory(vcap-services repo) is placed at `.../cloudfoundry/vcap/` 
+and then you can find echo service implementation at `...cloudfoundry/vcap/services/echo`.
+
 After making echo service out of "excluded components"(see `https://github.com/cloudfoundry/vcap/blob/master/dev_setup/README`) then re-run `.../cloudfoundry/vcap/dev_setup/bin/vcap_dev start`
 our echo service will appear as a system service
 in the table printed by `vmc services`. This guide can be used for both
@@ -45,9 +48,21 @@ Here are the places you need to pay attention to if you would like to build your
 1. On the file
 	`.../cloudfoundry/.deployments/devbox/config/vcap_components.json`, echo_node and echo_gateway were put in the list:
 
-        {"components":["router","cloud_controller","health_manager","dea","uaa","vcap_redis","serialization_data_server","redis_node","mysql_node","mongodb_node","neo4j_node","rabbitmq_node","postgresql_node","vblob_node","memcached_node","elasticsearch_node","couchdb_node","redis_gateway","mysql_gateway","mongodb_gateway","neo4j_gateway","rabbitmq_gateway","postgresql_gateway","vblob_gateway","memcached_gateway","elasticsearch_gateway","couchdb_gateway","filesystem_gateway","service_broker","backup_manager","snapshot_manager","redis_worker","mysql_worker","mongodb_worker","postgresql_worker", "echo_node", "echo_gateway"]}
+        {"components":["router","cloud_controller","health_manager","dea","uaa",
+         "vcap_redis","serialization_data_server","redis_node","mysql_node",
+         "mongodb_node","neo4j_node","rabbitmq_node","postgresql_node",
+         "vblob_node","memcached_node","elasticsearch_node","couchdb_node",
+         "redis_gateway","mysql_gateway","mongodb_gateway","neo4j_gateway",
+         "rabbitmq_gateway","postgresql_gateway","vblob_gateway","memcached_gateway",
+         "elasticsearch_gateway","couchdb_gateway","filesystem_gateway",
+         "service_broker","backup_manager","snapshot_manager","redis_worker",
+         "mysql_worker","mongodb_worker","postgresql_worker",
+         "echo_node","echo_gateway"]}
 
 2. Service token configuration was put at `.../cloudfoundry/.deployments/devbox/config/cloud_controller.yml`
+
+    Both cloud controller and service gateway are holding service tokens,
+    which should be exactly matched for the correct communication with each other.    
         
         # Services we provide, and their tokens. Avoids bootstrapping DB.
          builtin_services:
@@ -78,7 +93,9 @@ Here are the places you need to pay attention to if you would like to build your
 
 3. On the services host go to
 `.../cloudfoundry/vcap/services/tools/misc/bin/nuke_service.rb` 
-and you can see the path to the echo service configuration is there:
+and you can see the path to the echo service configuration is there.
+
+    This tool is used to remove a service offering from your cloud when you want to stop providing a service.
 
         default_configs = {
           :mongodb => File.expand_path("../../mongodb/config/mongodb_gateway.yml", __FILE__),
